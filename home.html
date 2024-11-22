@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+        integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="flex flex-row w-full justify-center items-center mt-14 text-black/80">
+        <div
+            class="flex flex-col justify-start items-start gap-4 shadow-lg h-full border border-blue-400 min-h-[400px] min-w-[400px] rounded-3xl">
+            <!-- <div class="circle"></div> -->
+            <div class="flex flex-row h-44 w-full justify-center items-center  rounded-t-3xl bg-sky-200">
+                <div class="animate-bounce duration-300 transition ease-in-out">
+                    <i class="fa-solid fa-sun fa-2xl" style="color: #FFD43B;scale: 3;"></i>
+                </div>
+                <!-- <i class="fa-solid fa-moon" style="color: #FFD43B;"></i> -->
+                <!-- <i class="fa-solid fa-cloud" style="color: #ffffff;"></i> -->
+                <!-- <i class="fa-solid fa-cloud-rain" style="color: #FFD43B;"></i> -->
+            </div>
+
+            <div class="flex flex-col justify-center items-center w-full gap-2 h-full">
+                <h2 class="location font-bold text-3xl">
+                    <i class="fa-solid fa-location-crosshairs fa-sm" style="color: #FFD43B;"></i>
+                    {%tempLocation%} , {%tempCon%}
+                </h2>
+                <p id="date" class="text-sm font-extralight">FRI |22 NOV|15:17 PM</p>
+                <h1 id="temp" class="font-bold text-3xl">{%tempVal%} &deg;C</h1>
+                <h3 id="minmax" class="text-sm font-extralight">Min {%tempMin%} &deg;C | Max {%tempMax%} &deg;C</h3>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Returns the current day of the week as a string.
+         * 
+         * This function retrieves the current date and uses it to determine
+         * the corresponding day of the week. The returned value is one of
+         * the following strings: "Sunday", "Monday", "Tuesday", "Wednesday",
+         * "Thursday", "Friday", or "Saturday".
+         */
+        const getCurrentDay = () => {
+            let weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+            let today = new Date();
+            // console.log(weekdays[today.getDay()]);
+            return weekdays[today.getDay()];
+        }
+
+        /**
+         * Returns the current time and date in a formatted string.
+         * 
+         * The format is "DD MMM | HH:MM AM/PM", where:
+         * - DD is the day of the month
+         * - MMM is the abbreviated month name
+         * - HH is the hour in 12-hour format
+         * - MM is the minutes
+         * - AM/PM is the period indicator
+         * 
+         * The function retrieves the current date and time, converts the hour to a 12-hour format,
+         * and determines whether the period is AM or PM.
+         */
+        const getCurrentTime = () => {
+            const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const time = new Date();
+            const month = time.getMonth();
+            const date = time.getDate();
+            const year = time.getFullYear();
+            // console.log(`${date}/${month}/${year}`);
+            // console.log(`${date}/${Months[month]}/${year}`);
+            const hour = time.getHours();
+            const min = time.getMinutes();
+            let period = "AM";
+            if (hour >= 12) {
+                period = "PM";
+            }
+            else if (hour > 12) {
+                hour = hour - 12;
+            }
+            else if (hour == 0) {
+                hour = 12;
+            }
+            else {
+                period = "AM";
+            }
+            // console.log(`${hour}:${min} ${period}`);
+            return `${date} ${Months[month]} | ${hour}:${min} ${period}`;
+        }
+
+        const currentDate = document.getElementById('date');
+        currentDate.innerHTML = `${getCurrentDay()} | ${getCurrentTime()}`;
+
+    </script>
+</body>
+
+</html>
